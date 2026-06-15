@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instituto Jardim Europa - Leilão Camisa Seleção Brasileira</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --ije-black: #1A1A1A;
+            --ije-white: #FFFFFF;
+            --ije-red: #E63946;
+            --ije-gray: #F5F5F5;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: var(--ije-white);
+            color: var(--ije-black);
+        }
+
+        .header {
+            background: white;
+            padding: 2rem 0;
+            border-bottom: 4px solid black;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-img {
+            max-height: 160px;
+            width: auto;
+        }
+
+        .header-title {
+            color: black;
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid var(--ije-red);
+            background: transparent;
+            color: var(--ije-red);
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Raleway', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: var(--ije-red);
+            color: white;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--ije-black) 0%, #333 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 4px solid var(--ije-red);
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+
+        .info-bar {
+            background: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+            border-bottom: 2px solid var(--ije-red);
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-label {
+            font-size: 0.7rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--ije-red);
+        }
+
+        .timer-section {
+            background: var(--ije-black);
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .timer-label {
+            font-size: 0.9rem;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 2rem;
+        }
+
+        .timer-display {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .timer-unit {
+            background: white;
+            padding: 1.5rem;
+            min-width: 90px;
+        }
+
+        .timer-value {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--ije-red);
+        }
+
+        .timer-text {
+            font-size: 0.7rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0.5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .item-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .item-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 500px;
+            background: var(--ije-gray);
+            overflow: hidden;
+            border: 3px solid var(--ije-red);
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .thumbnail-gallery {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #ccc;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .thumbnail.active {
+            border-color: var(--ije-red);
+            box-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+        }
+
+        .item-details {
+            padding: 2rem;
+            background: var(--ije-gray);
+        }
+
+        .item-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .item-description {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .price-section {
+            background: white;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--ije-red);
+        }
+
+        .price-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--ije-red);
+        }
+
+        .current-bid-section {
+            background: var(--ije-black);
+            padding: 1.5rem;
+            color: white;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .current-bid-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--ije-red);
+        }
+
+        .bid-input-group {
+            display: flex;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .bid-input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            font-family: 'Raleway', sans-serif;
+            font-size: 1rem;
+        }
+
+        .bid-input:focus {
+            outline: none;
+            border-color: var(--ije-red);
+        }
+
+        .btn-bid {
+            padding: 1rem 2rem;
+            background: var(--ije-red);
+            color: white;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Raleway', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .btn-bid:hover {
+            background: #d42e3a;
+        }
+
+        /* PAINEL DE LANCES */
+        .bids-panel {
+            background: white;
+            border: 2px solid var(--ije-red);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        .bids-panel-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--ije-red);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .bids-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .bid-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            background: var(--ije-gray);
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .bid-item:last-child {
+            border-bottom: none;
+        }
+
+        .bid-item-name {
+            font-weight: 600;
+            color: var(--ije-black);
+        }
+
+        .bid-item-value {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--ije-red);
+        }
+
+        .bid-item-time {
+            font-size: 0.75rem;
+            color: #999;
+            margin-top: 0.3rem;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--ije-red);
+            padding-bottom: 1rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--ije-red);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            font-family: 'Raleway', sans-serif;
+            font-size: 1rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--ije-red);
+        }
+
+        .terms-box {
+            background: var(--ije-gray);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--ije-red);
+            color: white;
+            border: none;
+            font-weight: 700;
+            font-family: 'Raleway', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            background: #d42e3a;
+        }
+
+        .footer {
+            background: var(--ije-black);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 768px) {
+            .item-hero {
+                grid-template-columns: 1fr;
+            }
+            .main-image {
+                height: 300px;
+            }
+            .bid-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .bid-item-value {
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <img src="https://raw.githubusercontent.com/barbaramotta/IJE/main/WhatsApp%20Image%202026-04-07%20at%2010.05.01%20%282%29.jpeg" alt="Instituto Jardim Europa" class="logo-img">
+            <h1 class="header-title">Leilão Instituto Jardim Europa</h1>
+            <div>
+                <span id="userInfo" style="display:none; margin-right: 1rem;"></span>
+                <button class="btn" id="btnLogout" onclick="logout()" style="display:none;">Sair</button>
+                <button class="btn" onclick="openRegisterModal()">Cadastrar</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h2 class="hero-title">Leilão Beneficente</h2>
+        <p class="hero-subtitle">Camisa Autografada pela Seleção Brasileira</p>
+    </section>
+
+    <div class="info-bar">
+        <div class="info-item">
+            <div class="info-label">Pagamento</div>
+            <div class="info-value">PIX</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Envio</div>
+            <div class="info-value">Brasil Inteiro</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Frete</div>
+            <div class="info-value">Por conta do arrematante</div>
+        </div>
+    </div>
+
+    <div class="timer-section">
+        <div class="timer-label">Tempo Restante</div>
+        <div class="timer-display">
+            <div class="timer-unit">
+                <div class="timer-value" id="days">00</div>
+                <div class="timer-text">Dias</div>
+            </div>
+            <div class="timer-unit">
+                <div class="timer-value" id="hours">00</div>
+                <div class="timer-text">Horas</div>
+            </div>
+            <div class="timer-unit">
+                <div class="timer-value" id="minutes">00</div>
+                <div class="timer-text">Minutos</div>
+            </div>
+            <div class="timer-unit">
+                <div class="timer-value" id="seconds">00</div>
+                <div class="timer-text">Segundos</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="item-hero">
+            <div class="item-gallery">
+                <div class="main-image">
+                    <img id="mainImage" src="https://raw.githubusercontent.com/barbaramotta/IJE/main/Leil%C3%A3o%20-%20Foto%201.png" alt="Camisa Seleção Brasileira">
+                </div>
+                <div class="thumbnail-gallery">
+                    <div class="thumbnail active" onclick="switchImage('Leil%C3%A3o%20-%20Foto%201.png')">
+                        <img src="https://raw.githubusercontent.com/barbaramotta/IJE/main/Leil%C3%A3o%20-%20Foto%201.png" alt="Foto 1">
+                    </div>
+                    <div class="thumbnail" onclick="switchImage('Leil%C3%A3o%20-%20Foto%202.png')">
+                        <img src="https://raw.githubusercontent.com/barbaramotta/IJE/main/Leil%C3%A3o%20-%20Foto%202.png" alt="Foto 2">
+                    </div>
+                </div>
+            </div>
+
+            <div class="item-details">
+                <h3 class="item-title">Camisa Autografada Seleção Brasileira</h3>
+                <div class="item-description">
+                    <p><strong>Item Exclusivo:</strong> Camisa oficial doada por Casemiro e autografada pela Seleção Brasileira.</p>
+                    <p style="margin-top: 1rem;">Este é um item único, autenticado e de grande valor histórico e sentimental.</p>
+                    <p style="margin-top: 1rem;">A renda arrecadada com este leilão será destinada ao Instituto Jardim Europa para apoiar suas iniciativas sociais.</p>
+                </div>
+
+                <div class="price-section">
+                    <div class="price-label">Lance Inicial</div>
+                    <div class="price-value">R$ 1.000,00</div>
+                </div>
+
+                <div class="current-bid-section">
+                    <div class="price-label">LANCE ATUAL</div>
+                    <div class="current-bid-value" id="currentBid">R$ 1.000,00</div>
+                    <div style="font-size: 0.8rem; color: #ccc;" id="bidCount">0 lance(s)</div>
+                </div>
+
+                <div class="bid-input-group">
+                    <input type="number" class="bid-input" id="bidInput" placeholder="Digite seu lance" min="1100" step="100">
+                    <button class="btn-bid" onclick="placeBid()">DAR LANCE</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAINEL DE LANCES AO VIVO -->
+        <div class="bids-panel">
+            <div class="bids-panel-title">📊 Histórico de Lances</div>
+            <div class="bids-list" id="bidsList">
+                <div style="padding: 1rem; text-align: center; color: #999;">Nenhum lance ainda...</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="registerModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Cadastro para Licitação</h2>
+                <button class="modal-close" onclick="closeRegisterModal()">×</button>
+            </div>
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label class="form-label">Nome Completo *</label>
+                    <input type="text" class="form-input" id="inputName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">CPF *</label>
+                    <input type="text" class="form-input" id="inputCPF" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">E-mail *</label>
+                    <input type="email" class="form-input" id="inputEmail" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Telefone *</label>
+                    <input type="tel" class="form-input" id="inputPhone" required>
+                </div>
+                <div class="form-group">
+                    <div class="terms-box">
+                        <p><strong>1.</strong> Item vendido no estado atual (ad corpus).</p>
+                        <p><strong>2.</strong> Lance vencedor é irretratável.</p>
+                        <p><strong>3.</strong> Pagamento via PIX ou transferência bancária.</p>
+                        <p><strong>4.</strong> Retirada do item conforme agendado.</p>
+                        <p><strong>5.</strong> Autorizo tratamento de dados pessoais (LGPD).</p>
+                    </div>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="acceptTerms" required>
+                        <span>Li e aceito os termos *</span>
+                    </label>
+                </div>
+                <button type="submit" class="btn-submit">Cadastrar e Licitar</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>
+            Instituto Jardim Europa - Leilão Beneficente<br>
+            Toda a renda será revertida para projetos sociais<br>
+            www.institutojardimeuropa.com.br
+        </p>
+    </footer>
+
+    <script>
+        let currentUser = JSON.parse(localStorage.getItem('ijeUser') || 'null');
+        let auctionEndTime = new Date(2026, 5, 30, 19, 0, 0);
+        let currentBidAmount = 1000;
+        let bidHistory = [];
+
+        function switchImage(filename) {
+            document.getElementById('mainImage').src = `https://raw.githubusercontent.com/barbaramotta/IJE/main/${filename}`;
+            document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+            event.target.closest('.thumbnail').classList.add('active');
+        }
+
+        function updateBidsPanel() {
+            const bidsList = document.getElementById('bidsList');
+            
+            if (bidHistory.length === 0) {
+                bidsList.innerHTML = '<div style="padding: 1rem; text-align: center; color: #999;">Nenhum lance ainda...</div>';
+                return;
+            }
+
+            bidsList.innerHTML = bidHistory.map(bid => `
+                <div class="bid-item">
+                    <div>
+                        <div class="bid-item-name">${bid.user}</div>
+                        <div class="bid-item-time">${bid.timestamp}</div>
+                    </div>
+                    <div class="bid-item-value">R$ ${bid.amount.toLocaleString('pt-BR')}</div>
+                </div>
+            `).join('');
+
+            bidsList.scrollTop = bidsList.scrollHeight;
+        }
+
+        function placeBid() {
+            if (!currentUser) {
+                openRegisterModal();
+                return;
+            }
+
+            const bidAmount = parseFloat(document.getElementById('bidInput').value);
+            const minBid = currentBidAmount + 100;
+
+            if (!bidAmount || bidAmount < minBid) {
+                alert(`Lance mínimo: R$ ${minBid.toLocaleString('pt-BR')}`);
+                return;
+            }
+
+            currentBidAmount = bidAmount;
+            bidHistory.push({
+                user: currentUser.name,
+                amount: bidAmount,
+                timestamp: new Date().toLocaleString('pt-BR')
+            });
+
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbyMRBR1qLdjxUZu5wAl8LnPxU3ug7ElOyUaTW5OJQwGvfljLi-spvpdOjAcOwYYSojB9A/exec';
+            
+            const formData = new FormData();
+            formData.append('nome', currentUser.name);
+            formData.append('cpf', currentUser.cpf);
+            formData.append('email', currentUser.email);
+            formData.append('telefone', currentUser.phone);
+            formData.append('valor', bidAmount);
+            
+            fetch(scriptUrl, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors'
+            });
+
+            document.getElementById('currentBid').textContent = `R$ ${bidAmount.toLocaleString('pt-BR')}`;
+            document.getElementById('bidCount').textContent = `${bidHistory.length} lance(s)`;
+            document.getElementById('bidInput').value = '';
+
+            localStorage.setItem('ijeAuction', JSON.stringify({
+                currentBid: currentBidAmount,
+                bids: bidHistory
+            }));
+
+            updateBidsPanel();
+            alert(`✅ Lance de R$ ${bidAmount.toLocaleString('pt-BR')} registrado!`);
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            
+            const nome = document.getElementById('inputName').value;
+            const cpf = document.getElementById('inputCPF').value;
+            const email = document.getElementById('inputEmail').value;
+            const telefone = document.getElementById('inputPhone').value;
+            
+            currentUser = { name: nome, cpf: cpf, email: email, phone: telefone };
+            localStorage.setItem('ijeUser', JSON.stringify(currentUser));
+            
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbyMRBR1qLdjxUZu5wAl8LnPxU3ug7ElOyUaTW5OJQwGvfljLi-spvpdOjAcOwYYSojB9A/exec';
+            
+            const formData = new FormData();
+            formData.append('nome', nome);
+            formData.append('cpf', cpf);
+            formData.append('email', email);
+            formData.append('telefone', telefone);
+            formData.append('valor', '');
+            
+            fetch(scriptUrl, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors'
+            });
+            
+            document.getElementById('userInfo').textContent = currentUser.name;
+            document.getElementById('userInfo').style.display = 'block';
+            document.getElementById('btnLogout').style.display = 'block';
+            closeRegisterModal();
+            alert(`✅ Bem-vindo, ${nome}!\n\nAgora você pode dar lances!`);
+        }
+
+        function startGlobalTimer() {
+            setInterval(() => {
+                const now = new Date();
+                const diff = auctionEndTime - now;
+
+                if (diff <= 0) {
+                    document.getElementById('days').textContent = '00';
+                    document.getElementById('hours').textContent = '00';
+                    document.getElementById('minutes').textContent = '00';
+                    document.getElementById('seconds').textContent = '00';
+                    return;
+                }
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            }, 1000);
+        }
+
+        function openRegisterModal() {
+            document.getElementById('registerModal').classList.add('show');
+        }
+
+        function closeRegisterModal() {
+            document.getElementById('registerModal').classList.remove('show');
+        }
+
+        function logout() {
+            if (confirm('Deseja sair?')) {
+                localStorage.removeItem('ijeUser');
+                currentUser = null;
+                location.reload();
+            }
+        }
+
+        function init() {
+            const savedAuction = localStorage.getItem('ijeAuction');
+            if (savedAuction) {
+                const data = JSON.parse(savedAuction);
+                currentBidAmount = data.currentBid;
+                bidHistory = data.bids;
+                document.getElementById('currentBid').textContent = `R$ ${currentBidAmount.toLocaleString('pt-BR')}`;
+                document.getElementById('bidCount').textContent = `${bidHistory.length} lance(s)`;
+                updateBidsPanel();
+            }
+
+            if (currentUser) {
+                document.getElementById('userInfo').textContent = currentUser.name;
+                document.getElementById('userInfo').style.display = 'block';
+                document.getElementById('btnLogout').style.display = 'block';
+            }
+
+            startGlobalTimer();
+        }
+
+        init();
+    </script>
+</body>
+</html>
