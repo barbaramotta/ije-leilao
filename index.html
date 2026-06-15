@@ -331,7 +331,7 @@
         }
 
         .bids-list {
-            max-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
         }
 
@@ -596,9 +596,9 @@
         </div>
 
         <div class="bids-panel">
-            <div class="bids-panel-title">📊 Histórico de Lances</div>
+            <div class="bids-panel-title">📊 Histórico de Lances (TEMPO REAL)</div>
             <div class="bids-list" id="bidsList">
-                <div style="padding: 1rem; text-align: center; color: #999;">Nenhum lance ainda...</div>
+                <div style="padding: 1rem; text-align: center; color: #999;">⏳ Carregando lances...</div>
             </div>
         </div>
     </div>
@@ -652,11 +652,54 @@
         </p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
     <script>
+        // CONFIGURAÇÃO SUPABASE (JÁ PRONTO!)
+        const SUPABASE_URL = 'https://qonoguirtqqjekyjkrif.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFvbm9ndWlydHFxamVreWprcmlmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1MzkzMDksImV4cCI6MjA5NzExNTMwOX0.r8Nekt3_YliBd3XE037HlDrNwPNeln9b5fKPdfJCr9A';
+
+        const { createClient } = supabase;
+        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+
         let currentUser = JSON.parse(localStorage.getItem('ijeUser') || 'null');
         let auctionEndTime = new Date(2026, 5, 30, 19, 0, 0);
         let currentBidAmount = 1000;
-        let bidHistory = [];
+
+        // ESCUTA LANCES EM TEMPO REAL
+        async function loadBids() {
+            const { data, error } = await supabaseClient
+                .from('bids')
+                .select('*')
+                .order('created_at', { ascending: true });
+
+            if (error) {
+                console.error('Erro ao carregar lances:', error);
+                return;
+            }
+
+            if (data && data.length > 0) {
+                currentBidAmount = data[data.length - 1].amount;
+                document.getElementById('currentBid').textContent = `R$ ${currentBidAmount.toLocaleString('pt-BR')}`;
+                document.getElementById('bidCount').textContent = `${data.length} lance(s)`;
+            }
+
+            updateBidsPanel(data);
+        }
+
+        // Carregar lances ao iniciar
+        loadBids();
+
+        // Escuta em tempo real para novos lances
+        supabaseClient
+            .channel('bids-channel')
+            .on('postgres_changes', 
+                { event: 'INSERT', schema: 'public', table: 'bids' },
+                (payload) => {
+                    loadBids();
+                }
+            )
+            .subscribe();
 
         function switchImage(filename) {
             document.getElementById('mainImage').src = `https://raw.githubusercontent.com/barbaramotta/IJE/main/${filename}`;
@@ -664,19 +707,19 @@
             event.target.closest('.thumbnail').classList.add('active');
         }
 
-        function updateBidsPanel() {
+        function updateBidsPanel(bidsArray) {
             const bidsList = document.getElementById('bidsList');
             
-            if (bidHistory.length === 0) {
+            if (!bidsArray || bidsArray.length === 0) {
                 bidsList.innerHTML = '<div style="padding: 1rem; text-align: center; color: #999;">Nenhum lance ainda...</div>';
                 return;
             }
 
-            bidsList.innerHTML = bidHistory.map(bid => `
+            bidsList.innerHTML = bidsArray.map(bid => `
                 <div class="bid-item">
                     <div>
-                        <div class="bid-item-name">${bid.user}</div>
-                        <div class="bid-item-time">${bid.timestamp}</div>
+                        <div class="bid-item-name">${bid.user_name}</div>
+                        <div class="bid-item-time">${new Date(bid.created_at).toLocaleString('pt-BR')}</div>
                     </div>
                     <div class="bid-item-value">R$ ${bid.amount.toLocaleString('pt-BR')}</div>
                 </div>
@@ -685,7 +728,7 @@
             bidsList.scrollTop = bidsList.scrollHeight;
         }
 
-        function placeBid() {
+        async function placeBid() {
             if (!currentUser) {
                 openRegisterModal();
                 return;
@@ -699,42 +742,45 @@
                 return;
             }
 
-            currentBidAmount = bidAmount;
-            bidHistory.push({
-                user: currentUser.name,
-                amount: bidAmount,
-                timestamp: new Date().toLocaleString('pt-BR')
-            });
+            try {
+                const { error } = await supabaseClient
+                    .from('bids')
+                    .insert([{
+                        user_name: currentUser.name,
+                        user_cpf: currentUser.cpf,
+                        user_email: currentUser.email,
+                        user_phone: currentUser.phone,
+                        amount: bidAmount
+                    }]);
 
-            const scriptUrl = 'https://script.google.com/macros/s/AKfycbyMRBR1qLdjxUZu5wAl8LnPxU3ug7ElOyUaTW5OJQwGvfljLi-spvpdOjAcOwYYSojB9A/exec';
-            
-            const formData = new FormData();
-            formData.append('nome', currentUser.name);
-            formData.append('cpf', currentUser.cpf);
-            formData.append('email', currentUser.email);
-            formData.append('telefone', currentUser.phone);
-            formData.append('valor', bidAmount);
-            
-            fetch(scriptUrl, {
-                method: 'POST',
-                body: formData,
-                mode: 'no-cors'
-            });
+                if (error) {
+                    alert('❌ Erro ao registrar lance: ' + error.message);
+                    return;
+                }
 
-            document.getElementById('currentBid').textContent = `R$ ${bidAmount.toLocaleString('pt-BR')}`;
-            document.getElementById('bidCount').textContent = `${bidHistory.length} lance(s)`;
-            document.getElementById('bidInput').value = '';
+                document.getElementById('bidInput').value = '';
+                alert(`✅ Lance de R$ ${bidAmount.toLocaleString('pt-BR')} registrado!`);
+                
+                // Enviar para Google Sheets também
+                const scriptUrl = 'https://script.google.com/macros/s/AKfycbyMRBR1qLdjxUZu5wAl8LnPxU3ug7ElOyUaTW5OJQwGvfljLi-spvpdOjAcOwYYSojB9A/exec';
+                const formData = new FormData();
+                formData.append('nome', currentUser.name);
+                formData.append('cpf', currentUser.cpf);
+                formData.append('email', currentUser.email);
+                formData.append('telefone', currentUser.phone);
+                formData.append('valor', bidAmount);
+                fetch(scriptUrl, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors'
+                });
 
-            localStorage.setItem('ijeAuction', JSON.stringify({
-                currentBid: currentBidAmount,
-                bids: bidHistory
-            }));
-
-            updateBidsPanel();
-            alert(`✅ Lance de R$ ${bidAmount.toLocaleString('pt-BR')} registrado!`);
+            } catch (error) {
+                alert('❌ Erro: ' + error.message);
+            }
         }
 
-        function handleRegister(event) {
+        async function handleRegister(event) {
             event.preventDefault();
             
             const nome = document.getElementById('inputName').value;
@@ -745,26 +791,25 @@
             currentUser = { name: nome, cpf: cpf, email: email, phone: telefone };
             localStorage.setItem('ijeUser', JSON.stringify(currentUser));
             
+            document.getElementById('userInfo').textContent = currentUser.name;
+            document.getElementById('userInfo').style.display = 'block';
+            document.getElementById('btnLogout').style.display = 'block';
+            closeRegisterModal();
+            alert(`✅ Bem-vindo, ${nome}!\n\nAgora você pode dar lances!`);
+
+            // Enviar para Google Sheets
             const scriptUrl = 'https://script.google.com/macros/s/AKfycbyMRBR1qLdjxUZu5wAl8LnPxU3ug7ElOyUaTW5OJQwGvfljLi-spvpdOjAcOwYYSojB9A/exec';
-            
             const formData = new FormData();
             formData.append('nome', nome);
             formData.append('cpf', cpf);
             formData.append('email', email);
             formData.append('telefone', telefone);
             formData.append('valor', '');
-            
             fetch(scriptUrl, {
                 method: 'POST',
                 body: formData,
                 mode: 'no-cors'
             });
-            
-            document.getElementById('userInfo').textContent = currentUser.name;
-            document.getElementById('userInfo').style.display = 'block';
-            document.getElementById('btnLogout').style.display = 'block';
-            closeRegisterModal();
-            alert(`✅ Bem-vindo, ${nome}!\n\nAgora você pode dar lances!`);
         }
 
         function startGlobalTimer() {
@@ -809,16 +854,6 @@
         }
 
         function init() {
-            const savedAuction = localStorage.getItem('ijeAuction');
-            if (savedAuction) {
-                const data = JSON.parse(savedAuction);
-                currentBidAmount = data.currentBid;
-                bidHistory = data.bids;
-                document.getElementById('currentBid').textContent = `R$ ${currentBidAmount.toLocaleString('pt-BR')}`;
-                document.getElementById('bidCount').textContent = `${bidHistory.length} lance(s)`;
-                updateBidsPanel();
-            }
-
             if (currentUser) {
                 document.getElementById('userInfo').textContent = currentUser.name;
                 document.getElementById('userInfo').style.display = 'block';
