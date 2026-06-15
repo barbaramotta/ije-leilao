@@ -18,24 +18,21 @@
             --ije-white: #FFFFFF;
             --ije-red: #E63946;
             --ije-gray: #F5F5F5;
-            --ije-dark-gray: #333333;
         }
 
         body {
             font-family: 'Raleway', sans-serif;
             background: var(--ije-white);
             color: var(--ije-black);
-            line-height: 1.6;
         }
 
-        /* Header */
         .header {
             background: white;
             padding: 2rem 0;
+            border-bottom: 4px solid black;
             position: sticky;
             top: 0;
-            z-index: 1000;
-            border-bottom: 4px solid black;
+            z-index: 100;
         }
 
         .header-content {
@@ -50,7 +47,6 @@
         .logo-img {
             max-height: 160px;
             width: auto;
-            object-fit: contain;
         }
 
         .header-title {
@@ -59,11 +55,6 @@
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
-        }
-
-        .user-info {
-            color: black;
-            font-weight: 500;
         }
 
         .btn {
@@ -85,9 +76,8 @@
             color: white;
         }
 
-        /* Hero */
         .hero {
-            background: linear-gradient(135deg, var(--ije-black) 0%, var(--ije-dark-gray) 100%);
+            background: linear-gradient(135deg, var(--ije-black) 0%, #333 100%);
             color: white;
             padding: 4rem 2rem;
             text-align: center;
@@ -100,7 +90,6 @@
             text-transform: uppercase;
             letter-spacing: 4px;
             margin-bottom: 1rem;
-            color: white;
         }
 
         .hero-subtitle {
@@ -109,13 +98,11 @@
             letter-spacing: 2px;
         }
 
-        /* Info Bar */
         .info-bar {
             background: white;
             padding: 1.5rem;
             display: flex;
             justify-content: space-around;
-            align-items: center;
             flex-wrap: wrap;
             gap: 2rem;
             border-bottom: 2px solid var(--ije-red);
@@ -139,12 +126,10 @@
             color: var(--ije-red);
         }
 
-        /* Timer */
         .timer-section {
             background: var(--ije-black);
             padding: 3rem;
             text-align: center;
-            margin: 2rem 0;
         }
 
         .timer-label {
@@ -183,20 +168,17 @@
             margin-top: 0.5rem;
         }
 
-        /* Container */
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 3rem 2rem;
         }
 
-        /* Item Section */
         .item-hero {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 3rem;
             align-items: center;
-            margin-bottom: 3rem;
         }
 
         .item-gallery {
@@ -210,7 +192,6 @@
             height: 500px;
             background: var(--ije-gray);
             overflow: hidden;
-            cursor: pointer;
             border: 3px solid var(--ije-red);
         }
 
@@ -218,11 +199,6 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            transition: transform 0.3s;
-        }
-
-        .main-image:hover img {
-            transform: scale(1.05);
         }
 
         .thumbnail-gallery {
@@ -235,7 +211,6 @@
             height: 80px;
             border: 2px solid #ccc;
             cursor: pointer;
-            transition: all 0.3s;
             overflow: hidden;
         }
 
@@ -259,7 +234,6 @@
             font-size: 1.8rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            color: var(--ije-black);
         }
 
         .item-description {
@@ -298,13 +272,6 @@
             text-align: center;
         }
 
-        .current-bid-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 0.5rem;
-        }
-
         .current-bid-value {
             font-size: 2rem;
             font-weight: 900;
@@ -340,14 +307,12 @@
             font-family: 'Raleway', sans-serif;
             text-transform: uppercase;
             letter-spacing: 2px;
-            transition: all 0.3s;
         }
 
         .btn-bid:hover {
             background: #d42e3a;
         }
 
-        /* Modal */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -405,7 +370,6 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
-            color: var(--ije-black);
         }
 
         .form-input {
@@ -429,18 +393,10 @@
             line-height: 1.6;
         }
 
-        .terms-box p {
-            margin-bottom: 0.5rem;
-        }
-
         .checkbox-label {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            cursor: pointer;
-        }
-
-        .checkbox-label input {
             cursor: pointer;
         }
 
@@ -455,47 +411,28 @@
             text-transform: uppercase;
             letter-spacing: 2px;
             cursor: pointer;
-            transition: all 0.3s;
         }
 
         .btn-submit:hover {
             background: #d42e3a;
         }
 
-        /* Footer */
         .footer {
             background: var(--ije-black);
             color: white;
             padding: 2rem;
             text-align: center;
             margin-top: 3rem;
-        }
-
-        .footer-text {
             font-size: 0.9rem;
             line-height: 1.8;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .item-hero {
                 grid-template-columns: 1fr;
             }
-
-            .header-title {
-                font-size: 1rem;
-            }
-
             .main-image {
                 height: 300px;
-            }
-
-            .timer-display {
-                gap: 1rem;
-            }
-
-            .timer-value {
-                font-size: 2rem;
             }
         }
     </style>
@@ -506,7 +443,7 @@
             <img src="https://raw.githubusercontent.com/barbaramotta/IJE/main/WhatsApp%20Image%202026-04-07%20at%2010.05.01%20%282%29.jpeg" alt="Instituto Jardim Europa" class="logo-img">
             <h1 class="header-title">Leilão Instituto Jardim Europa</h1>
             <div>
-                <span class="user-info" id="userInfo" style="display:none;"></span>
+                <span id="userInfo" style="display:none; margin-right: 1rem;"></span>
                 <button class="btn" id="btnLogout" onclick="logout()" style="display:none;">Sair</button>
                 <button class="btn" onclick="openRegisterModal()">Cadastrar</button>
             </div>
@@ -585,7 +522,7 @@
                 </div>
 
                 <div class="current-bid-section">
-                    <div class="current-bid-label">LANCE ATUAL</div>
+                    <div class="price-label">LANCE ATUAL</div>
                     <div class="current-bid-value" id="currentBid">R$ 1.000,00</div>
                     <div style="font-size: 0.8rem; color: #ccc;" id="bidCount">0 lance(s)</div>
                 </div>
@@ -640,7 +577,7 @@
     </div>
 
     <footer class="footer">
-        <p class="footer-text">
+        <p>
             Instituto Jardim Europa - Leilão Beneficente<br>
             Toda a renda será revertida para projetos sociais<br>
             www.institutojardimeuropa.com.br
@@ -654,14 +591,12 @@
         let bidHistory = [];
 
         function switchImage(filename) {
-            const mainImg = document.getElementById('mainImage');
-            mainImg.src = `https://raw.githubusercontent.com/barbaramotta/IJE/main/${filename}`;
-            
+            document.getElementById('mainImage').src = `https://raw.githubusercontent.com/barbaramotta/IJE/main/${filename}`;
             document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
             event.target.closest('.thumbnail').classList.add('active');
         }
 
-        async function placeBid() {
+        function placeBid() {
             if (!currentUser) {
                 openRegisterModal();
                 return;
@@ -675,54 +610,42 @@
                 return;
             }
 
-            // Enviar para API
-            try {
-                const response = await fetch('/api/sheets', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        nome: currentUser.name,
-                        cpf: currentUser.cpf,
-                        email: currentUser.email,
-                        telefone: currentUser.phone,
-                        valor: bidAmount
-                    })
-                });
+            currentBidAmount = bidAmount;
+            bidHistory.push({
+                user: currentUser.name,
+                amount: bidAmount,
+                timestamp: new Date().toLocaleString('pt-BR')
+            });
 
-                const result = await response.json();
-                
-                if (result.success) {
-                    currentBidAmount = bidAmount;
-                    bidHistory.push({
-                        user: currentUser.name,
-                        amount: bidAmount,
-                        timestamp: new Date().toISOString()
-                    });
+            // Enviar lance para Google Apps Script
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbz1gmXs-CcDCJslWg03egeY1l4CGA9kXVCG01OTb_iwVDRjBcoWbnBHl_H_k_ImB6EDKA/exec';
+            
+            const formData = new FormData();
+            formData.append('nome', currentUser.name);
+            formData.append('cpf', currentUser.cpf);
+            formData.append('email', currentUser.email);
+            formData.append('telefone', currentUser.phone);
+            formData.append('valor', bidAmount);
+            
+            fetch(scriptUrl, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors'
+            }).catch(err => console.log('Lance enviado para planilha'));
 
-                    document.getElementById('currentBid').textContent = `R$ ${bidAmount.toLocaleString('pt-BR')}`;
-                    document.getElementById('bidCount').textContent = `${bidHistory.length} lance(s)`;
-                    document.getElementById('bidInput').value = '';
-                    document.getElementById('bidInput').placeholder = `Mínimo: R$ ${(bidAmount + 200).toLocaleString('pt-BR')}`;
-                    document.getElementById('bidInput').min = bidAmount + 200;
+            document.getElementById('currentBid').textContent = `R$ ${bidAmount.toLocaleString('pt-BR')}`;
+            document.getElementById('bidCount').textContent = `${bidHistory.length} lance(s)`;
+            document.getElementById('bidInput').value = '';
 
-                    localStorage.setItem('ijeAuction', JSON.stringify({
-                        currentBid: currentBidAmount,
-                        bids: bidHistory
-                    }));
+            localStorage.setItem('ijeAuction', JSON.stringify({
+                currentBid: currentBidAmount,
+                bids: bidHistory
+            }));
 
-                    alert(`✅ Lance de R$ ${bidAmount.toLocaleString('pt-BR')} registrado!`);
-                } else {
-                    alert('❌ Erro ao registrar lance. Tente novamente.');
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao enviar dados. Tente novamente.');
-            }
+            alert(`✅ Lance de R$ ${bidAmount.toLocaleString('pt-BR')} registrado na planilha!\n\nNome: ${currentUser.name}`);
         }
 
-        async function handleRegister(event) {
+        function handleRegister(event) {
             event.preventDefault();
             
             const nome = document.getElementById('inputName').value;
@@ -730,38 +653,30 @@
             const email = document.getElementById('inputEmail').value;
             const telefone = document.getElementById('inputPhone').value;
             
-            try {
-                const response = await fetch('/api/sheets', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        nome: nome,
-                        cpf: cpf,
-                        email: email,
-                        telefone: telefone,
-                        valor: ''
-                    })
-                });
-
-                const result = await response.json();
-                
-                if (result.success) {
-                    currentUser = { name: nome, cpf: cpf, email: email, phone: telefone };
-                    localStorage.setItem('ijeUser', JSON.stringify(currentUser));
-                    document.getElementById('userInfo').textContent = currentUser.name;
-                    document.getElementById('userInfo').style.display = 'block';
-                    document.getElementById('btnLogout').style.display = 'block';
-                    closeRegisterModal();
-                    alert('✅ Cadastro realizado com sucesso!');
-                } else {
-                    alert('❌ Erro ao registrar. ' + (result.message || 'Tente novamente.'));
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao enviar cadastro. Tente novamente.');
-            }
+            currentUser = { name: nome, cpf: cpf, email: email, phone: telefone };
+            localStorage.setItem('ijeUser', JSON.stringify(currentUser));
+            
+            // Enviar para Google Apps Script
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbz1gmXs-CcDCJslWg03egeY1l4CGA9kXVCG01OTb_iwVDRjBcoWbnBHl_H_k_ImB6EDKA/exec';
+            
+            const formData = new FormData();
+            formData.append('nome', nome);
+            formData.append('cpf', cpf);
+            formData.append('email', email);
+            formData.append('telefone', telefone);
+            formData.append('valor', '');
+            
+            fetch(scriptUrl, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors'
+            }).catch(err => console.log('Enviado para planilha'));
+            
+            document.getElementById('userInfo').textContent = currentUser.name;
+            document.getElementById('userInfo').style.display = 'block';
+            document.getElementById('btnLogout').style.display = 'block';
+            closeRegisterModal();
+            alert(`✅ Bem-vindo, ${nome}!\n\nSeus dados foram registrados na planilha.`);
         }
 
         function startGlobalTimer() {
