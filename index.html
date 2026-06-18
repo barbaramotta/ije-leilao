@@ -663,7 +663,7 @@
         const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let currentUser = JSON.parse(localStorage.getItem('ijeUser') || 'null');
-        let auctionEndTime = new Date(2026, 5, 30, 19, 0, 0);
+        let auctionEndTime = new Date(2026, 6, 31, 19, 0, 0);
         let currentBidAmount = 1000;
 
         // ESCUTA LANCES EM TEMPO REAL
