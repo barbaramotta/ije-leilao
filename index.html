@@ -711,7 +711,10 @@
             .subscribe();
 
         function switchImage(filename) {
-            document.getElementById('mainImage').src = `https://raw.githubusercontent.com/barbaramotta/IJE/main/${filename}`;
+            const imageUrl = filename.startsWith('https://')
+                ? filename
+                : `https://raw.githubusercontent.com/barbaramotta/IJE/main/${filename}`;
+            document.getElementById('mainImage').src = imageUrl;
             document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
             event.target.closest('.thumbnail').classList.add('active');
         }
